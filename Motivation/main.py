@@ -4,13 +4,13 @@ import random
 import os
 from twilio.rest import Client
 
-
-account_sid = "ACd698df8a9b7645ae74d77adebf0798c0"  # account on twilo web
-auth_token = "6dfdd300e306de1251808547a8b52826"  # id for twilio web(needs to me env var)
+account_sid = os.environ.get("twilio_api_sid")  # account on twilo web
+auth_token = os.environ.get("twilio_api_token") # id for twilio web(needs to me env var)
 client = Client(account_sid, auth_token)
 
-EMAIL = "yuvalz528@gmail.com"
-PASSWORD = "lrulnfeuclepdhor"
+EMAIL = os.environ.get("my_email")
+PASSWORD = os.environ.get("password_twilio")
+
 
 now_time = datetime.datetime.now()  # takes the current time from the comp
 now_day = now_time.weekday()  # a num that represents the day number(starts at zero)
@@ -29,12 +29,12 @@ with smtplib.SMTP("smtp.gmail.com") as connection:  # create a new connection to
             message = client.messages \
                 .create(
                 body=f"{mail}",
-                from_="+18658004107",
-                to='+972523948372'
+                from_=os.environ.get("twilio_num"),
+                to=os.environ.get("my_num")
             )
             print(message.status)
             connection.sendmail(from_addr=EMAIL,
-                                to_addrs="yuvalz528@gmail.com",
+                                to_addrs=os.environ.get("my_email"),
                                 msg=f"subject: Motivation for the week\n\n {mail}")
 
 
